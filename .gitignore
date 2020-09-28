@@ -1,4 +1,4 @@
 #Folders
 env/
 Tweets/
-
+*/__pycache__/*
