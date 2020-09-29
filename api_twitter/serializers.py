@@ -10,9 +10,6 @@ class CountrySerializer(serializers.ModelSerializer):
                   )
 
 
-
-
-
 def load_data():
     from api_twitter.country_bounding_boxes import get_country_bounding_boxes
 
