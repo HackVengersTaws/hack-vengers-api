@@ -21,7 +21,7 @@ class Filtro(models.Model):
     id = models.AutoField(primary_key=True)
     fecha_inicio = models.DateTimeField(auto_now=False, null=True)
     fecha_fin = models.DateTimeField(auto_now=False, null=True)
-    hashtag = models.CharField(max_length=100, null=True)
+    hashtags = models.CharField(max_length=100, null=True)
     num_hashtags = models.IntegerField(default=0)
     mencions = models.CharField(max_length=100, null=True)
     num_mencions = models.IntegerField(default=0)
