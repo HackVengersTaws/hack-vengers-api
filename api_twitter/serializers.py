@@ -28,14 +28,13 @@ class FiltroSerializer(serializers.ModelSerializer):
                   'fecha_inicio',
                   'fecha_fin',
                   'hashtags',
-                  'num_hashtags',
+                  'min_hashtags',
                   'mencions',
-                  'num_mencions',
+                  'min_mencions',
                   'username',
                   'keywords',
                   'fecha_min_creation_user',
                   'fecha_max_creation_user',
-                  'username_mencion',
                   'min_followers',
                   'min_friends',
                   'len_min_tweet',
@@ -44,7 +43,6 @@ class FiltroSerializer(serializers.ModelSerializer):
                   'min_faves',
                   'min_retweets',
                   'min_replies',
-                  'from_count',
                   'language'
                   )
 
