@@ -24,13 +24,23 @@ class TweetSerializer(serializers.ModelSerializer):
 class FiltroSerializer(serializers.ModelSerializer):
     class Meta:
         model = Filtro
-        fields = ('fecha_inicio',
+        fields = ('id',
+                  'fecha_inicio',
+                  'fecha_fin',
+                  'hashtag',
+                  'num_hashtags',
+                  'mencions',
+                  'num_mencions',
                   'username',
                   'keywords',
-                  'num_mencions',
-                  'num_hashtags',
+                  'fecha_min_creation_user',
+                  'fecha_max_creation_user',
+                  'username_mencion',
+                  'min_followers',
+                  'min_friends',
                   'len_min_tweet',
-                  'country'
+                  'country',
+                  'len_min_tweet'
                   )
 
 

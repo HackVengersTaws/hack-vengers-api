@@ -2,3 +2,5 @@
 env/
 Tweets/
 hackVengers_api/__pycache__/
+api_twitter/__pycache__/
+__pycache__/
