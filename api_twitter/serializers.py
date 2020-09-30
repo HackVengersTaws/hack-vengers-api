@@ -35,11 +35,19 @@ class FiltroSerializer(serializers.ModelSerializer):
                   'min_followers',
                   'min_friends',
                   'keywords',
-                  'num_mencions',
-                  'num_hashtags',
+                  'fecha_min_creation_user',
+                  'fecha_max_creation_user',
+                  'min_followers',
+                  'min_friends',
                   'len_min_tweet',
-                  'country'
+                  'country',
+                  'len_min_tweet',
+                  'min_faves',
+                  'min_retweets',
+                  'min_replies',
+                  'language'
                   )
+                  
 
 
 def load_data():

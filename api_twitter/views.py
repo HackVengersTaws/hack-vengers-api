@@ -21,6 +21,7 @@ def filtros(request):
         filtros = Filtro.objects.all()
         filtros_serializable = FiltroSerializer(filtros, many=True)
         return JsonResponse(filtros_serializable.data, safe=False)
+    
     elif request.method == 'POST':
         filtro_data = JSONParser().parse(request)
         filtro_serializer = FiltroSerializer(data=filtro_data)
@@ -35,6 +36,7 @@ def tweet(request):
         tweets = Tweet.objects.all()
         tweets_serializable = TweetSerializer(tweets, many=True)
         return JsonResponse(tweets_serializable.data, safe=False)
+    
     elif request.method == 'POST':
         tweet_data = JSONParser().parse(request)
         tweet_serializer = TweetSerializer(data=tweet_data)
