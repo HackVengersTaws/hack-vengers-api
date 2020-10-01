@@ -12,29 +12,37 @@ class CountrySerializer(serializers.ModelSerializer):
 class TweetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tweet
-        fields = ('fecha',
-                  'username',
-                  'texto',
-                  'num_mencions',
-                  'num_hashtags',
-                  'longuitud',
-                  'country'
+        fields = ('fecha', 
+                'texto', 
+                'longuitud', 
+                'hashtags', 
+                'num_hashtags', 
+                'mencions', 
+                'num_mencions', 
+                'language', 
+                'retweet_count', 
+                'favorite_count', 
+                'name_place', 
+                'full_name_place', 
+                'country', 
+                'username', 
+                'followers', 
+                'friends', 
+                'create_count'
                   )
 
 class FiltroSerializer(serializers.ModelSerializer):
     class Meta:
         model = Filtro
-        fields = ('fecha_inicio',
+        fields = ('id',
+                  'fecha_inicio',
                   'fecha_fin',
-                  'hashtag',
+                  'hashtags',
+                  'min_hashtags',
                   'mencions',
-                  'username',
-                  'fecha_min_creation_user',
-                  'fecha_max_creation_user',
-                  'username_mencion'
-                  'min_followers',
-                  'min_friends',
+                  'min_mencions',
                   'keywords',
+                  'username',
                   'fecha_min_creation_user',
                   'fecha_max_creation_user',
                   'min_followers',
@@ -45,7 +53,7 @@ class FiltroSerializer(serializers.ModelSerializer):
                   'min_faves',
                   'min_retweets',
                   'min_replies',
-                  'language'
+                  'language',
                   )
                   
 
@@ -57,6 +65,6 @@ def load_data():
     for code, data in country_bounding_boxes.items():
         country = Country.objects.create(code=code, name=data[0], bounding_boxes=data[1])
         country.save()
-    print("Paises cargadas....OK")
+    print("Paises cargadas....OK\n")
 
 # load_data()

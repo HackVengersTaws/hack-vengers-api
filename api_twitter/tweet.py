@@ -101,7 +101,6 @@ def get_tweets_from_tweepy(keywords, hashtags=[], mencions=[], since_date=None, 
     if from_count is not None:
         filters += 'from:%s ' %from_count
 
-
     hashtags = ['#'+x for x in hashtags]
     mencions = ['@'+x for x in mencions]
     keywords = ' OR '.join(keywords+hashtags+mencions)
@@ -114,15 +113,15 @@ def get_tweets_from_tweepy(keywords, hashtags=[], mencions=[], since_date=None, 
                                include_entities=True,
                                count=100,
                                lang=language,
-                               ).items(1)
+                               ).items(10)
 
-    return list(new_tweets)
+    return get_info_tweets(list(new_tweets))  #Convert  list of Tweepy's tweets into list of info requierer 
 
 
 def get_DataFrame(tweets):
     df = pd.DataFrame(tweets)
     df['fecha'] = pd.to_datetime(df['fecha'])
-    df['fecha_count'] = pd.to_datetime(df['fecha_count'])
+    df['create_count'] = pd.to_datetime(df['create_count'])
     return df
 
 

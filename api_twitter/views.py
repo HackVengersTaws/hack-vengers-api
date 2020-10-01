@@ -5,7 +5,17 @@ from api_twitter.serializers import *
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from http import HTTPStatus
+from api_twitter.tweet import *
 
+
+def get_format_filter(dic_filter):
+    '''
+    This fuction is used to convert string into a list of strings
+    '''
+    list_filter = ['hashtags', 'mencions', 'keywords']
+    for type_filter in list_filter:
+        if type_filter in dic_filter:
+            dic_filter[type_filter] = dic_filter[type_filter].split(',')
 
 
 
@@ -14,6 +24,8 @@ def countries_list(request):
         countries = Country.objects.all()
         countries_serializer = CountrySerializer(countries, many=True)
         return JsonResponse(countries_serializer.data, safe=False)
+
+
 
 @csrf_exempt
 def filtros(request):
@@ -27,8 +39,14 @@ def filtros(request):
         filtro_serializer = FiltroSerializer(data=filtro_data)
         if filtro_serializer.is_valid():
             filtro_serializer.save()
-            return JsonResponse(filtro_serializer.data, status=HTTPStatus.CREATED)
+            get_format_filter(filtro_data)
+            print(filtro_data)
+            tweets = get_tweets_from_tweepy(**filtro_data)
+
+            return JsonResponse(tweets, status=HTTPStatus.CREATED, safe=False)
         return JsonResponse(filtro_serializer.errors, status=HTTPStatus.BAD_REQUEST)
+
+
 
 @csrf_exempt
 def tweet(request):
