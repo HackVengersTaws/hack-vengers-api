@@ -5,6 +5,7 @@ import tweepy
 from tweepy import Stream
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
+import numpy as np
 
 consumer_key = "UMqWhrvhnvlriQjUGsEdeFBun"
 consumer_secret = "wKqdKBJsntpqd03EmPEMfyMf4FZnGF05RbF2oG80MxgMAr9Kui"

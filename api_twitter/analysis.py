@@ -1,5 +1,5 @@
 import pandas as pd
 
-df = pd.read_csv('data_example.csv')
+df = pd.read_pickle('data_example')
 
 print(df.head())
