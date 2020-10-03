@@ -114,7 +114,7 @@ def get_tweets_from_tweepy(keywords=[], hashtags=[], mencions=[], since_date=Non
                                include_entities=True,
                                count=100,
                                lang=language,
-                               ).items(1000)
+                               ).items(3000)
 
     return get_info_tweets(list(new_tweets))  #Convert  list of Tweepy's tweets into list of info requierer 
 

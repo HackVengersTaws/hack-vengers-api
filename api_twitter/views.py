@@ -44,10 +44,13 @@ def filtros(request):
             get_format_filter(filtro_data)
             print(filtro_data)
             tweets = get_tweets_from_tweepy(**filtro_data)
+            print('Obtecion de tweet....ok')
 
             #Analysis
             df_tweets = get_DataFrame(tweets)
             analysis = get_analysis(df_tweets)
+            print('Analisis de tweet....ok')
+
 
             data = {
                 'tweets': tweets,
