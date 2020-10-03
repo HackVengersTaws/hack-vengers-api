@@ -114,15 +114,18 @@ def get_tweets_from_tweepy(keywords, hashtags=[], mencions=[], since_date=None, 
                                include_entities=True,
                                count=100,
                                lang=language,
-                               ).items(1000)
+                               ).items(100)
 
     return get_info_tweets(list(new_tweets))  #Convert  list of Tweepy's tweets into list of info requierer 
 
+from datetime import timedelta 
 
 def get_DataFrame(tweets):
     df = pd.DataFrame(tweets)
-    df['fecha'] = pd.to_datetime(df['fecha'])
+    df['fecha'] = pd.to_datetime(df['fecha']) - timedelta(hours=5)  
     df['create_count'] = pd.to_datetime(df['create_count'])
+    df.set_index('fecha', inplace=True)
+
     return df
 
 
