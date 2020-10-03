@@ -36,6 +36,22 @@ def get_amount_count_per_year(data):
     d.update(data.groupby('create_count_year')['texto'].count().to_dict())
     return d
 
+def get_sentiments(data):
+    d = {'Positivo':0, 'Negativo':0, 'Neutral':0}
+    temp = Counter(data['language'].to_list())
+    languege = list(dict(sorted(dict(temp).items(), key=lambda kv: kv[1], reverse=True)[:1]).keys())[0]
+    if languege=='en':
+        from nltk.sentiment.vader import SentimentIntensityAnalyzer
+        sid = SentimentIntensityAnalyzer()
+        data["sentimiento"] = data["texto"].apply(lambda i: sid.polarity_scores(i)["compound"])
+    else: 
+        from textblob import TextBlob
+        data['sentimiento'] = data['texto'].apply(lambda x: TextBlob(x).sentiment[0])
+    data['sentimiento'] = data['sentimiento'].apply(lambda x: 'Positivo' if x>=0.45 else 'Negativo' if x<=-0.45 else 'Neutral'  )
+    d.update((100*data.groupby('sentimiento')['texto'].count()/len(data)).to_dict())
+    return d
+
+
 def get_analysis(df_tweet):
 
     analysis = {
@@ -45,7 +61,7 @@ def get_analysis(df_tweet):
         'mean_tweet_per_hour': get_mean_tweet_per_hour(df_tweet),
         'mean_tweet_per_day': get_mean_tweet_per_day(df_tweet),
         'amount_count_per_year': get_amount_count_per_year(df_tweet),
-        'sentiments': None
+        'sentiments': get_sentiments(df_tweet)
     }
 
     return analysis

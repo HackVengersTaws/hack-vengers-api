@@ -86,7 +86,7 @@ def get_info_tweets(list_of_tweet):
 
 
 
-def get_tweets_from_tweepy(keywords, hashtags=[], mencions=[], since_date=None, end_date=None, country=None,
+def get_tweets_from_tweepy(keywords=[], hashtags=[], mencions=[], since_date=None, end_date=None, country=None,
                           min_replies=None, min_faves=None, min_retweets=None, from_count=None, language=None):
     filters = ''
 
@@ -114,7 +114,7 @@ def get_tweets_from_tweepy(keywords, hashtags=[], mencions=[], since_date=None, 
                                include_entities=True,
                                count=100,
                                lang=language,
-                               ).items(100)
+                               ).items(1000)
 
     return get_info_tweets(list(new_tweets))  #Convert  list of Tweepy's tweets into list of info requierer 
 
