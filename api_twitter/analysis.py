@@ -1,6 +1,6 @@
 import pandas as pd
 from collections import Counter
-
+# nltk.download('vader_lexicon')
 
 def get_top(data, top=10):
     counts = Counter(data)

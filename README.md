@@ -6,6 +6,7 @@ Es necesario instalar los siguientes paquetes y/o dependencias, estas se encuent
 
 ```
 pip install -r requiments.txt
+python -m nltk.downloader vader_lexicon
 ```
 
 *NOTA: El comando se ejecuta dentro de la carpeta hack-vengers-api*
