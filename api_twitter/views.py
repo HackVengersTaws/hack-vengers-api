@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from http import HTTPStatus
 from api_twitter.tweet import *
+from api_twitter.analysis import get_analysis
+
 
 
 def get_format_filter(dic_filter):
@@ -38,12 +40,21 @@ def filtros(request):
         filtro_data = JSONParser().parse(request)
         filtro_serializer = FiltroSerializer(data=filtro_data)
         if filtro_serializer.is_valid():
-            filtro_serializer.save()
+            # filtro_serializer.save()
             get_format_filter(filtro_data)
             print(filtro_data)
             tweets = get_tweets_from_tweepy(**filtro_data)
 
-            return JsonResponse(tweets, status=HTTPStatus.CREATED, safe=False)
+            #Analysis
+            df_tweets = get_DataFrame(tweets)
+            analysis = get_analysis(df_tweets)
+
+            data = {
+                'tweets': tweets,
+                'analysis':analysis
+            }
+
+            return JsonResponse(data, status=HTTPStatus.CREATED, safe=False)
         return JsonResponse(filtro_serializer.errors, status=HTTPStatus.BAD_REQUEST)
 
 
@@ -64,9 +75,4 @@ def tweet(request):
         return JsonResponse(tweet_serializer.errors, status=HTTPStatus.BAD_REQUEST)
 
 
-# def filters(request):
-#     if request.method == 'GET':
-#         countries = Country.objects.filter(code ='EC')
-#         countries_serializer = CountrySerializer(countries, many=True)
-#         return JsonResponse(countries_serializer.data, safe=False)
     

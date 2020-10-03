@@ -1,11 +1,11 @@
 # snscrape twitter-search "corona since:2019-12-31 until:2020-09-25" > borrar.txt
 import json
-import time
 import tweepy
 from tweepy import Stream
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 import numpy as np
+import pandas as pd
 
 consumer_key = "UMqWhrvhnvlriQjUGsEdeFBun"
 consumer_secret = "wKqdKBJsntpqd03EmPEMfyMf4FZnGF05RbF2oG80MxgMAr9Kui"
@@ -69,7 +69,7 @@ def diccionario_tw (tw):
     dic["username"] = dic_user['screen_name']
     dic["followers"] = dic_user['followers_count']
     dic["friends"] = dic_user['friends_count']
-    dic["fecha_count"] = dic_user['created_at']
+    dic["create_count"] = dic_user['created_at']
 
     return dic
 
@@ -114,7 +114,7 @@ def get_tweets_from_tweepy(keywords, hashtags=[], mencions=[], since_date=None, 
                                include_entities=True,
                                count=100,
                                lang=language,
-                               ).items(10)
+                               ).items(1000)
 
     return get_info_tweets(list(new_tweets))  #Convert  list of Tweepy's tweets into list of info requierer 
 
