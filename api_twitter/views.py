@@ -38,6 +38,12 @@ def filtros(request):
     
     elif request.method == 'POST':
         filtro_data = JSONParser().parse(request)
+
+        if filtro_data.get('fecha_inicio') =='':
+            filtro_data['fecha_inicio']=None
+        if filtro_data.get('fecha_fin') =='':
+            filtro_data['fecha_fin']=None
+
         filtro_serializer = FiltroSerializer(data=filtro_data)
         if filtro_serializer.is_valid():
             filtro_serializer.save()
