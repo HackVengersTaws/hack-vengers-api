@@ -29,16 +29,16 @@ class Tweet(models.Model):
 
 class Filtro(models.Model):
     id = models.AutoField(primary_key=True)
-    fecha_inicio = models.DateTimeField(auto_now=False, null=True, blank=True)
-    fecha_fin = models.DateTimeField(auto_now=False, null=True, blank=True)
+    fecha_inicio = models.DateField(auto_now=False, null=True, blank=True)
+    fecha_fin = models.DateField(auto_now=False, null=True, blank=True)
     hashtags = models.CharField(max_length=100, null=True, blank=True)
     min_hashtags = models.IntegerField(default=0) #
     mencions = models.CharField(max_length=100, null=True, blank=True)
     min_mencions = models.IntegerField(default=0) #
     keywords = models.CharField(max_length=150, null=True, blank=True)
     username = models.CharField(max_length=150, null=True, blank=True)
-    fecha_min_creation_user = models.DateTimeField(auto_now=False, null=True, blank=True) #
-    fecha_max_creation_user = models.DateTimeField(auto_now=False, null=True, blank=True) #
+    fecha_min_creation_user = models.DateField(auto_now=False, null=True, blank=True) #
+    fecha_max_creation_user = models.DateField(auto_now=False, null=True, blank=True) #
     min_followers = models.IntegerField(default=0)#
     min_friends = models.IntegerField(default=0)#
     country = models.CharField(max_length=40, null=True, blank=True)
