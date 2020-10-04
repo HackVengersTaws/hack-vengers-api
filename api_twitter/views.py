@@ -7,6 +7,7 @@ from rest_framework.parsers import JSONParser
 from http import HTTPStatus
 from api_twitter.tweet import *
 from api_twitter.analysis import get_analysis
+import json
 
 
 
@@ -39,10 +40,10 @@ def filtros(request):
     elif request.method == 'POST':
         filtro_data = JSONParser().parse(request)
 
-        if filtro_data.get('fecha_inicio') =='':
-            filtro_data['fecha_inicio']=None
-        if filtro_data.get('fecha_fin') =='':
-            filtro_data['fecha_fin']=None
+        # if filtro_data.get('fecha_inicio') =='':
+        #     filtro_data['fecha_inicio']=None
+        # if filtro_data.get('fecha_fin') =='':
+        #     filtro_data['fecha_fin']=None
 
         filtro_serializer = FiltroSerializer(data=filtro_data)
         if filtro_serializer.is_valid():
@@ -64,7 +65,7 @@ def filtros(request):
 
 
             data = {
-                'tweets': tweets,
+                'tweets': df_tweets.reset_index().astype(str).to_dict('records'),
                 'analysis':analysis
             }
 

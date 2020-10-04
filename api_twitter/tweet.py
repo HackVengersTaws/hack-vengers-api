@@ -79,20 +79,20 @@ def get_info_tweets(list_of_tweet):
     lista_tweets = []
     for tweet in list_of_tweet:
         tw = get_data_Json(tweet)
-        dicc = diccionario_tw (tw)
+        dicc = diccionario_tw(tw)
         lista_tweets.append(dicc)
     return lista_tweets
 
 
 
 
-def get_tweets_from_tweepy(keywords=[], hashtags=[], mencions=[], fecha_inicio=None, fecha_fin=None, country=None,
+def get_tweets_from_tweepy(keywords=[], hashtags=[], mencions=[], fecha_inicio=None, fecha_fin=None, country='',
                           min_replies=None, min_faves=None, min_retweets=None, username=None, language=None,
                           min_hashtags=None, min_mencions=None, fecha_min_creation_user=None, fecha_max_creation_user=None,
                           min_followers=None, min_friends=None, len_min_tweet=None):
     filters = ''
 
-    if country is not None and country!='':
+    if  country!='':
         country_id = api.geo_search(query=country, granularity="country")[0].id
         filters += 'place:%s ' %country_id
     if min_replies is not None and min_replies!='':
@@ -116,7 +116,7 @@ def get_tweets_from_tweepy(keywords=[], hashtags=[], mencions=[], fecha_inicio=N
                                include_entities=True,
                                count=100,
                                lang=language,
-                               ).items(5)
+                               ).items(500)
 
     return get_info_tweets(list(new_tweets))  #Convert  list of Tweepy's tweets into list of info requierer 
 

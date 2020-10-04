@@ -35,8 +35,8 @@ class FiltroSerializer(serializers.ModelSerializer):
     class Meta:
         model = Filtro
         fields = ('id',
-                  'fecha_inicio',
-                  'fecha_fin',
+                #   'fecha_inicio',
+                #   'fecha_fin',
                   'hashtags',
                   'min_hashtags',
                   'mencions',
