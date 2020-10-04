@@ -29,23 +29,23 @@ class Tweet(models.Model):
 
 class Filtro(models.Model):
     id = models.AutoField(primary_key=True)
-    fecha_inicio = models.DateTimeField(auto_now=False, null=True)
-    fecha_fin = models.DateTimeField(auto_now=False, null=True)
-    hashtags = models.CharField(max_length=100, null=True)
+    fecha_inicio = models.DateTimeField(auto_now=False, null=True, blank=True)
+    fecha_fin = models.DateTimeField(auto_now=False, null=True, blank=True)
+    hashtags = models.CharField(max_length=100, null=True, blank=True)
     min_hashtags = models.IntegerField(default=0) #
-    mencions = models.CharField(max_length=100, null=True)
+    mencions = models.CharField(max_length=100, null=True, blank=True)
     min_mencions = models.IntegerField(default=0) #
-    keywords = models.CharField(max_length=150, null=True)
-    username = models.CharField(max_length=150, null=True)
-    fecha_min_creation_user = models.DateTimeField(auto_now=False, null=True) #
-    fecha_max_creation_user = models.DateTimeField(auto_now=False, null=True) #
+    keywords = models.CharField(max_length=150, null=True, blank=True)
+    username = models.CharField(max_length=150, null=True, blank=True)
+    fecha_min_creation_user = models.DateTimeField(auto_now=False, null=True, blank=True) #
+    fecha_max_creation_user = models.DateTimeField(auto_now=False, null=True, blank=True) #
     min_followers = models.IntegerField(default=0)#
     min_friends = models.IntegerField(default=0)#
-    country = models.CharField(max_length=40, null=True)
+    country = models.CharField(max_length=40, null=True, blank=True)
     len_min_tweet = models.IntegerField(default=0)
     min_faves = models.IntegerField(default=0)
     min_retweets = models.IntegerField(default=0)
     min_replies = models.IntegerField(default=0)
-    language = models.CharField(max_length=10, null=True)
+    language = models.CharField(max_length=10, null=True, blank=True)
 
 

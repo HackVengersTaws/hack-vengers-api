@@ -44,7 +44,7 @@ def filtros(request):
             get_format_filter(filtro_data)
             print(filtro_data)
             tweets = get_tweets_from_tweepy(**filtro_data)
-            print(tweets)
+            # print(tweets)
             print('Obtecion de tweet....ok')
 
             #Analysis
