@@ -62,7 +62,7 @@ def filtros(request):
                 'analysis':analysis
             }
 
-            return JsonResponse(data, status=HTTPStatus.CREATED, safe=False)
+            return JsonResponse([data], status=HTTPStatus.CREATED, safe=False)
         return JsonResponse(filtro_serializer.errors, status=HTTPStatus.BAD_REQUEST)
 
 
