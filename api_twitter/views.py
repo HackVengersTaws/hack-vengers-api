@@ -40,14 +40,19 @@ def filtros(request):
         filtro_data = JSONParser().parse(request)
         filtro_serializer = FiltroSerializer(data=filtro_data)
         if filtro_serializer.is_valid():
-            # filtro_serializer.save()
+            filtro_serializer.save()
             get_format_filter(filtro_data)
             print(filtro_data)
             tweets = get_tweets_from_tweepy(**filtro_data)
+            print(tweets)
             print('Obtecion de tweet....ok')
 
             #Analysis
             df_tweets = get_DataFrame(tweets)
+
+            if df_tweets is None:
+                return JsonResponse([], status=HTTPStatus.CREATED, safe=False)
+
             analysis = get_analysis(df_tweets)
             print('Analisis de tweet....ok')
 

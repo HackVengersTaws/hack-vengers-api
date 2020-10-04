@@ -86,21 +86,23 @@ def get_info_tweets(list_of_tweet):
 
 
 
-def get_tweets_from_tweepy(keywords=[], hashtags=[], mencions=[], since_date=None, end_date=None, country=None,
-                          min_replies=None, min_faves=None, min_retweets=None, from_count=None, language=None):
+def get_tweets_from_tweepy(keywords=[], hashtags=[], mencions=[], fecha_inicio=None, fecha_fin=None, country=None,
+                          min_replies=None, min_faves=None, min_retweets=None, username=None, language=None,
+                          min_hashtags=None, min_mencions=None, fecha_min_creation_user=None, fecha_max_creation_user=None,
+                          min_followers=None, min_friends=None, len_min_tweet=None):
     filters = ''
 
-    if country is not None:
+    if country is not None and country!='':
         country_id = api.geo_search(query=country, granularity="country")[0].id
         filters += 'place:%s ' %country_id
-    if min_replies is not None:
+    if min_replies is not None and min_replies!='':
         filters += 'min_replies:%d ' %min_replies
-    if min_faves is not None:
+    if min_faves is not None and min_faves!='':
         filters += 'min_faves:%d ' %min_faves
-    if min_retweets is not None:
+    if min_retweets is not None and min_retweets!='':
         filters += 'min_retweets:%d ' %min_retweets
-    if from_count is not None:
-        filters += 'from:%s ' %from_count
+    if username is not None and username!='':
+        filters += 'from:%s ' %username
 
     hashtags = ['#'+x for x in hashtags]
     mencions = ['@'+x for x in mencions]
@@ -108,19 +110,21 @@ def get_tweets_from_tweepy(keywords=[], hashtags=[], mencions=[], since_date=Non
 
     new_tweets = tweepy.Cursor(api.search, 
                                q='(%s) %s' % (keywords, filters), 
-                               since = since_date,
-                               until = end_date,
+                               since = fecha_inicio,
+                               until = fecha_fin,
                                tweet_mode='extended',
                                include_entities=True,
                                count=100,
                                lang=language,
-                               ).items(350)
+                               ).items(5)
 
     return get_info_tweets(list(new_tweets))  #Convert  list of Tweepy's tweets into list of info requierer 
 
 from datetime import timedelta 
 
-def get_DataFrame(tweets):
+def get_DataFrame(tweets, filtros=None):
+    if len(tweets)==0:
+        return None
     df = pd.DataFrame(tweets)
     df['fecha'] = pd.to_datetime(df['fecha']) - timedelta(hours=5)  
     df['create_count'] = pd.to_datetime(df['create_count'])
