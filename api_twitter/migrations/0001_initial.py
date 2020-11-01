@@ -66,4 +66,11 @@ class Migration(migrations.Migration):
                 ('create_count', models.DateTimeField()),
             ],
         ),
+        migrations.CreateModel(
+            name='Id_Search',
+            fields=[
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('filtro', models.ForeignKey('Filtro',on_delete=models.CASCADE, blank=True, null=True))
+            ],
+        ),
     ]

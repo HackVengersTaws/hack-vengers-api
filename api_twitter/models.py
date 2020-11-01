@@ -49,3 +49,6 @@ class Filtro(models.Model):
     language = models.CharField(max_length=10, null=True, blank=True)
 
 
+class Id_Search(models.Model):
+    id = models.AutoField(primary_key=True)
+    filtro = models.ForeignKey(Filtro,on_delete=models.CASCADE, blank=True, null=True)
