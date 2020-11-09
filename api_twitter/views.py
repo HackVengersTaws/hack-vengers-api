@@ -50,7 +50,9 @@ def filtros(request):
             filtro_serializer.save()
             get_format_filter(filtro_data)
             print(filtro_data)
-            tweets = get_tweets_from_tweepy(**filtro_data)
+
+            id_proceso = new_process(**filtro_data)
+            """ tweets = get_tweets_from_tweepy(**filtro_data)
             # print(tweets)
             print('Obtecion de tweet....ok')
 
@@ -67,9 +69,9 @@ def filtros(request):
             data = {
                 'tweets': df_tweets.reset_index().astype(str).to_dict('records'),
                 'analysis':analysis
-            }
+            } """
 
-            return JsonResponse([data], status=HTTPStatus.CREATED, safe=False)
+            return JsonResponse(str(id_proceso), status=HTTPStatus.CREATED, safe=False)
         return JsonResponse(filtro_serializer.errors, status=HTTPStatus.BAD_REQUEST)
 
 

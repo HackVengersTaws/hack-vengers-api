@@ -1,11 +1,17 @@
 # snscrape twitter-search "corona since:2019-12-31 until:2020-09-25" > borrar.txt
 import json
+import os
+from time import sleep
 import tweepy
 from tweepy import Stream
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 import numpy as np
 import pandas as pd
+import threading
+import random as rd
+import sys
+import trace
 
 consumer_key = "UMqWhrvhnvlriQjUGsEdeFBun"
 consumer_secret = "wKqdKBJsntpqd03EmPEMfyMf4FZnGF05RbF2oG80MxgMAr9Kui"
@@ -16,6 +22,7 @@ auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token , access_token_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
+dicProceso = {}
 
 def get_data(data): 
     return json.dumps(data._json, indent=2, ensure_ascii=False)
@@ -29,8 +36,6 @@ def menciones(list):
         mencion = dic_mencion['screen_name']
         menciones.append(mencion)
     return menciones
-
-
 
 def get_hashtags(list_dic):
     l = []
@@ -73,8 +78,6 @@ def diccionario_tw (tw):
 
     return dic
 
-
-
 def get_info_tweets(list_of_tweet):
     lista_tweets = []
     for tweet in list_of_tweet:
@@ -83,8 +86,23 @@ def get_info_tweets(list_of_tweet):
         lista_tweets.append(dicc)
     return lista_tweets
 
+def new_process(keywords=[], hashtags=[], mencions=[], fecha_inicio=None, fecha_fin=None, country='',
+                min_replies=None, min_faves=None, min_retweets=None, username=None, language=None,
+                min_hashtags=None, min_mencions=None, fecha_min_creation_user=None, fecha_max_creation_user=None,
+                min_followers=None, min_friends=None, len_min_tweet=None):
+    hilo = threading.Thread(target= get_tweets_from_tweepy, args = (keywords, hashtags, mencions, fecha_inicio, fecha_fin, country,
+                min_replies, min_faves, min_retweets, username, language,min_hashtags, min_mencions, fecha_min_creation_user, fecha_max_creation_user,
+                min_followers, min_friends, len_min_tweet))
+    id_hilo = generarIdHilo()
+    hilo.setName(id_hilo)
+    hilo.start()
+    print(hilo.getName())
+    imprimir()
+    imprime2()
+    return hilo.getName()
 
-
+def generarIdHilo():
+    return "1234"
 
 def get_tweets_from_tweepy(keywords=[], hashtags=[], mencions=[], fecha_inicio=None, fecha_fin=None, country='',
                           min_replies=None, min_faves=None, min_retweets=None, username=None, language=None,
@@ -107,19 +125,39 @@ def get_tweets_from_tweepy(keywords=[], hashtags=[], mencions=[], fecha_inicio=N
     hashtags = ['#'+x for x in hashtags]
     mencions = ['@'+x for x in mencions]
     keywords = ' OR '.join(keywords+hashtags+mencions)
+    idHilo = threading.current_thread().getName()
+    print("este es el id"+str(idHilo))
+    dicProceso[idHilo] = [False,[]]
+    for tweet in tweepy.Cursor(api.search, q='(%s) %s' % (keywords, filters), since = fecha_inicio,
+                               until = fecha_fin, tweet_mode='extended',
+                               include_entities=True, count=100,
+                               lang=language,).items(3000):  
+        tw = get_data_Json(tweet)
+        dicc = diccionario_tw(tw)
+        valor_dicProceso = dicProceso[idHilo]
+        lista = valor_dicProceso[1]
+        print(str(len(lista))+str(valor_dicProceso[0]))
+        if valor_dicProceso[0]:
+            print(type(valor_dicProceso[0]))
+            print("matando hilo")
+            break
+        lista.append(dicc)
+    #return get_info_tweets(list(new_tweets))  #Convert  list of Tweepy's tweets into list of info requierer 
 
-    new_tweets = tweepy.Cursor(api.search, 
-                               q='(%s) %s' % (keywords, filters), 
-                               since = fecha_inicio,
-                               until = fecha_fin,
-                               tweet_mode='extended',
-                               include_entities=True,
-                               count=100,
-                               lang=language,
-                               ).items(500)
+def imprimir():
+    for i in range(5):
+        sleep(1)
+    lista = dicProceso["1234"]
+    #lista[0] = True
+    print(len(lista[1]))
 
-    return get_info_tweets(list(new_tweets))  #Convert  list of Tweepy's tweets into list of info requierer 
-
+def imprime2():
+    for i in range(30):
+        sleep(1)
+    lista = dicProceso["1234"]
+    print("bueno "+ str(len(lista[1])))
+    
+    
 from datetime import timedelta 
 
 def get_DataFrame(tweets, filtros=None):
