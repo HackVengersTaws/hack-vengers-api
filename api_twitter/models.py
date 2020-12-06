@@ -47,3 +47,8 @@ class Filtro(models.Model):
     min_retweets = models.IntegerField(default=0)
     min_replies = models.IntegerField(default=0)
     language = models.CharField(max_length=10, null=True, blank=True)
+
+
+class Id_Search(models.Model):
+    id = models.AutoField(primary_key=True)
+    filtro = models.ForeignKey(Filtro,on_delete=models.CASCADE, blank=True, null=True)

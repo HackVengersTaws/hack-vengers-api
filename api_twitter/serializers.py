@@ -56,6 +56,13 @@ class FiltroSerializer(serializers.ModelSerializer):
                   'language',
                   )
                   
+class IdSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Id_Search
+        fields = ('id',
+                  'filtro')
+
 def load_data():
     from api_twitter.country_bounding_boxes import get_country_bounding_boxes
 
@@ -65,4 +72,4 @@ def load_data():
         country.save()
     print("Paises cargadas....OK\n")
 
-#load_data()
+# load_data()

@@ -87,7 +87,34 @@ def tweet(request):
             tweet_serializer.save()
             return JsonResponse(tweet_serializer.data, status=HTTPStatus.CREATED)
         return JsonResponse(tweet_serializer.errors, status=HTTPStatus.BAD_REQUEST)
-'''
+""" 
+
+@api_view(['GET', 'POST', 'DELETE'])
+def id_list(request):
+    if request.method == 'GET':
+        ids = Id_Search.objects.all()
+        
+        title = request.query_params.get('title', None)
+        if title is not None:
+            ids = ids.filter(title__icontains=title)
+        
+        ids_serializer = IdSerializer(ids, many=True)
+        return JsonResponse(ids_serializer.data, safe=False)
+        # 'safe=False' for objects serialization
+ 
+    elif request.method == 'POST':
+        id_data = JSONParser().parse(request)
+        id_serializer = IdSerializer(data=id_data)
+        if id_serializer.is_valid():
+            id_serializer.save()
+            return JsonResponse(id_serializer.data, status=status.HTTP_201_CREATED) 
+        return JsonResponse(id_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    elif request.method == 'DELETE':
+        count = Id_Search.objects.all().delete()
+        return JsonResponse({'message': '{} Id_Searchs were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+ 
+  """
 @csrf_exempt
 def id_detail(request):
     
@@ -115,4 +142,12 @@ def id_detail(request):
     elif request.method == 'DELETE': 
         id.delete() 
         return JsonResponse({'message': 'Id_Search was deleted successfully!'}, status=HTTPStatus.BAD_REQUEST)
-    '''
+    
+"""        
+@api_view(['GET'])
+def id_list_published(request):
+    ids = Id_Search.objects.filter(published=True)
+        
+    if request.method == 'GET': 
+        ids_serializer = IdSerializer(ids, many=True)
+        return JsonResponse(ids_serializer.data, safe=False) """
